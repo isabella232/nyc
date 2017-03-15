@@ -248,6 +248,9 @@ NYC.prototype.walkAllFiles = function (dir, visitor) {
 NYC.prototype._maybeInstrumentSource = function (code, filename, relFile) {
   var instrument = this.exclude.shouldInstrument(filename, relFile)
   if (!instrument) {
+    // Still handle source maps even if file is not being instrumented.
+    // Maybe it was pre-instrumented.
+    this._handleSourceMap(this.cacheDirectory, code, undefined, relFile)
     return null
   }
 
